@@ -1,7 +1,7 @@
 const fs = require('fs');
 const {dialog} = require('electron').remote;
 
-
+var editors = []
 
 var el = document.getElementById("codeeditor")
 var editor = CodeMirror(el, {
@@ -9,14 +9,33 @@ var editor = CodeMirror(el, {
     mode:"javascript",
     theme:"pastel-on-dark"
 })
+editors.push(editor)
 
 editor.setSize(null, '100vh')
+
+Mousetrap.bindGlobal('alt+c', () => { create_selector() })
 
 Mousetrap.bindGlobal('alt+u', () => { undo_selection() })
 
 Mousetrap.bindGlobal('alt+s', () => { save_file() })
 
 Mousetrap.bindGlobal('alt+o', () => { open_file() })
+
+function create_selector() {
+    var new_editor = document.createElement("div")
+    var editors_div = document.getElementById('editors')
+    editors_div.appendChild(new_editor)
+    var temp_editor = CodeMirror(new_editor, {
+    lineNumbers: true,
+    mode:"javascript",
+    theme:"pastel-on-dark"
+})
+    editors.push(temp_editor);
+    for (var i = 0; i < editors.length; i ++){
+        editors[i].setSize(null, String(100*1/editors.length)+'vh')
+    }
+}
+
 
 function open_file() {
     dialog.showOpenDialog((fileNames) => {
