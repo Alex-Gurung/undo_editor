@@ -32,7 +32,9 @@ function create_selector() {
 })
     editors.push(temp_editor);
     for (var i = 0; i < editors.length; i ++){
-        editors[i].setSize(null, String(100*1/editors.length)+'vh')
+        editors[i].setSize(null, String(100*1/editors.length + 5)+'vh')
+        var total_size = 100 + 5*editors.length;
+        document.getElementById('undos').setAttribute("style", "height: "+ String(total_size)+'vh')
     }
 }
 
